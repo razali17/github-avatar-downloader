@@ -1,8 +1,7 @@
 var request = require('request');
-var secrets = require('./secrets.js')
+var secrets = require('./secrets.js');
 var fs = require('fs');
-
-args = process.argv.slice(2);
+var args = process.argv.slice(2);
 var owner = args[0];
 var repo = args[1];
 
@@ -20,23 +19,23 @@ function getRepoContributors(repoOwner, repoName, cb) {
   });
 }
 
+//Helper function that saves downloads the given url file to the give filePath.
 function downloadImageByURL(url, filePath) {
   request.get(url)
   .on('error', function (err) {
     throw err;
-  })
+  });
   .pipe(fs.createWriteStream(filePath));
-}
+};
 
 getRepoContributors("jquery", "jquery", function(err, result) {
   var data = JSON.parse(result);
-  if (args.length != 2) {
-  throw "You need to specify two command line argurments"
-  }
+  if (args.length != 2) {     // throw an error if 2 arguments are not specified in the command line
+  throw "You need to specify two command line argurments";
+  };
   data.forEach(function(user) {
-    fileP = user.login + ".jpg"
-    downloadImageByURL(user.avatar_url, fileP)
-  })
-  console.log("Errors:", err);
-  console.log("Result:", result);
+    var fileP = user.login + ".jpg";
+    var avatarURL = user.avatar_url;
+    downloadImageByURL(avatarURL, fileP);
+  });
 });
