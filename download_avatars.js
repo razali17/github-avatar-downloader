@@ -13,6 +13,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
   request(options, function(err, res, body) {
     cb(err, body);
+    var data = JSON.parse(body);
+    data.forEach(function(value) {
+    console.log(value.avatar_url)
+  })
   });
 }
 
