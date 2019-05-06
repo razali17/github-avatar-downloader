@@ -15,31 +15,25 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'User-Agent': 'request'
     }
   };
-
   request(options, function(err, res, body) {
     cb(err, body);
-
-
   });
 }
 
 function downloadImageByURL(url, filePath) {
-      request.get(url)               // Note 1
-       .on('error', function (err) {                                   // Note 2
-         throw err;
-       })
-       .pipe(fs.createWriteStream(filePath));
-
-     }
+  request.get(url)
+  .on('error', function (err) {
+    throw err;
+  })
+  .pipe(fs.createWriteStream(filePath));
+}
 
 getRepoContributors("jquery", "jquery", function(err, result) {
-    var data = JSON.parse(result);
-
-    data.forEach(function(user) {
-      fileP = user.login + ".jpg"
-      downloadImageByURL(user.avatar_url, fileP)
-   })
+  var data = JSON.parse(result);
+  data.forEach(function(user) {
+    fileP = user.login + ".jpg"
+    downloadImageByURL(user.avatar_url, fileP)
+  })
   console.log("Errors:", err);
   console.log("Result:", result);
 });
-
