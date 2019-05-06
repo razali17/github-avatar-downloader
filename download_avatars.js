@@ -30,6 +30,9 @@ function downloadImageByURL(url, filePath) {
 
 getRepoContributors("jquery", "jquery", function(err, result) {
   var data = JSON.parse(result);
+  if (args.length != 2) {
+  throw "You need to specify two command line argurments"
+  }
   data.forEach(function(user) {
     fileP = user.login + ".jpg"
     downloadImageByURL(user.avatar_url, fileP)
